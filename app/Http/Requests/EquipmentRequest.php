@@ -25,6 +25,8 @@ class EquipmentRequest extends FormRequest
         return [
             "name" => "required|string|min:3",
             "serial_number" => "required|unique:equipments,serial_number|string",
+            "category_id" => "required|exists:categories,id",
+            # "user_id" => "required|exists:users,id"
         ];
     }
 }

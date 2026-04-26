@@ -13,13 +13,25 @@ Route::get('/user', function (Request $request) {
 
 # rutas de equipment
 Route::get("equipments", [EquipmentController::class, "index"]);
-Route::post("create/equipment",[EquipmentController::class, "store"]);
-Route::put("updated/equipment/{equipment}",[EquipmentController::class, "update"]);
+
+
+
+
+
+Route::middleware("auth:sanctum")->group(function() {
+    Route::post("create/equipment",[EquipmentController::class, "store"]);
+    Route::put("update/equipment/{equipment}",[EquipmentController::class, "update"]);
+});
 
 
 # rutas de category
 
 Route::get("categories", [CategoryController::class, "index"]);
-Route::post("create/category", [CategoryController::class, "store"]);
-Route::put("update/category/{category}", [CategoryController::class, "update"]);
-Route::delete("delete/category/{category}", [CategoryController::class, "destroy"]);
+
+
+
+Route::middleware("auth:sanctum")->group(function() {
+    Route::post("create/category", [CategoryController::class, "store"]);
+    Route::put("update/category/{category}", [CategoryController::class, "update"]);
+    Route::delete("delete/category/{category}", [CategoryController::class, "destroy"]);
+});

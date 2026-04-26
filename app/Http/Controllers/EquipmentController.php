@@ -8,6 +8,8 @@ use App\Http\Resources\EquipmentResource;
 use App\Models\Equipment;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Gate;
+
 class EquipmentController extends Controller
 {
     /**
@@ -15,7 +17,11 @@ class EquipmentController extends Controller
      */
     public function index()
     {
-        $equipments = Equipment::all();
+
+
+        
+
+        $equipments = Equipment::with("category", "user")->get();
 
         return EquipmentResource::collection($equipments);
     }
@@ -32,10 +38,10 @@ class EquipmentController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(EquipmentRequest $request)
-    {
-        $equipment = Equipment::create($request->validated());
+    {   
+        $data = $request->validated();
+        $equipment = $request->user()->equipments()->create($data);
         return EquipmentResource::make($equipment);
-
     }
 
     /**
@@ -59,6 +65,9 @@ class EquipmentController extends Controller
      */
     public function update(Request $request, Equipment $equipment)
     {
+        Gate::authorize('update', $equipment);
+
+
         $equipment->update($request->all());
         return EquipmentResource::make($equipment);
 

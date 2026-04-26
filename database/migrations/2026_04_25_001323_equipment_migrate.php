@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use SebastianBergmann\Type\TrueType;
 
-return new class extends Migration
+return new class extends Migration 
 {
     /**
      * Run the migrations.
@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string("name");
             $table->string("serial_number")->unique();
             $table->boolean("status")->default(True);
-            $table->foreignId("category")->constrained();
+            $table->foreignId("category_id")->constrained();
+            $table->foreignId("user_id")->constrained();
             $table->timestamps();
             $table->softDeletes();
         });
